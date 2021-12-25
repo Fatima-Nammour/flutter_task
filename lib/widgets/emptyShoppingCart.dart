@@ -8,7 +8,6 @@ class EmptyShoppingCartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
-        color: col6,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -30,7 +29,8 @@ class EmptyShoppingCartPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4.0)),
               child: Text(
                 'No products here! ',
-                style: TextStyle(color: col1, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: col1, fontWeight: FontWeight.bold, fontSize: 20.0),
               ),
             ),
           ],

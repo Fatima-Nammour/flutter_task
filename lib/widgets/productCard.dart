@@ -8,6 +8,9 @@ class ProductCard extends StatelessWidget {
   final String? description;
   final String? rate;
   final String? marketName;
+  final String? marketAddress;
+  final Function? onPressAdd;
+  final Function? onPressDetail;
 
   const ProductCard(
       {this.name,
@@ -15,7 +18,10 @@ class ProductCard extends StatelessWidget {
       this.description,
       this.imageUrl,
       this.marketName,
-      this.rate});
+      this.rate,
+      this.marketAddress,
+      this.onPressAdd,
+      this.onPressDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -90,19 +96,34 @@ class ProductCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                    child: Center(
-                        child: Icon(
-                  Icons.info_outline,
-                  color: col1,
-                  size: 30.0,
-                ))),
+                  child: Center(
+                    child: IconButton(
+                      onPressed: () {
+                        onPressDetail!();
+                      },
+                      icon: Icon(
+                        Icons.info_outline,
+                        color: col1,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                     child: Center(
-                        child: Icon(
-                  Icons.add_shopping_cart_outlined,
-                  color: col1,
-                  size: 30.0,
-                ))),
+                  child: IconButton(
+                    focusColor: Colors.red,
+                    onPressed: () {
+                      onPressAdd!();
+                      print('pressed');
+                    },
+                    icon: Icon(
+                      Icons.add_shopping_cart_outlined,
+                      color: col1,
+                      size: 30.0,
+                    ),
+                  ),
+                )),
               ],
             ),
           ),

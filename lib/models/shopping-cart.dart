@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'product.g.dart';
+part 'shopping-cart.g.dart';
 
-@HiveType(typeId: 0)
-class Product extends HiveObject {
+@HiveType(typeId: 2)
+class ShoppingCart extends HiveObject {
   @HiveField(0)
   String? imageUrl;
   @HiveField(1)
