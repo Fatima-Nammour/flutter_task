@@ -45,7 +45,7 @@ class ProductCard extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.all(8.0),
-            child: Image.asset(
+            child: Image.network(
               '$imageUrl',
               fit: BoxFit.contain,
               /*height: MediaQuery.of(context).size.height * 0.6,

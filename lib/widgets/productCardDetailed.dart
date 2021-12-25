@@ -52,7 +52,7 @@ class _ProductCardDetailedState extends State<ProductCardDetailed> {
               height: MediaQuery.of(context).size.height * 0.4,
               width: MediaQuery.of(context).size.width * 0.6,
               margin: EdgeInsets.all(10.0),
-              child: Image.asset(
+              child: Image.network(
                 '${widget.imageUrl}',
                 fit: BoxFit.contain,
               ),
