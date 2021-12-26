@@ -34,12 +34,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Widget widgetHome() {
-      if (Hive.box<User>('user').getAt(0)!.isSignup!)
+      if (!Hive.box<User>('user').getAt(0)!.isSignup!)
         return SignUpScreen();
-      else if (Hive.box<User>('user').getAt(0)!.isLogged!)
+      else if (!Hive.box<User>('user').getAt(0)!.isLogged!)
         return Login();
-      else
+      else {
         return Products();
+      }
     }
 
     return MaterialApp(

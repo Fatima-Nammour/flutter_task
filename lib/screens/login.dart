@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_task/component/spinKit.dart';
+import 'package:flutter_task/models/product.dart';
 import 'package:flutter_task/models/user.dart';
 import 'package:flutter_task/widgets/button.dart';
+import 'package:flutter_task/widgets/showDialog-app.dart';
 import 'package:flutter_task/widgets/textField.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -26,21 +28,7 @@ class _LoginState extends State<Login> {
 
   void loginButton(context) async {
     if (nameController!.text.isEmpty || passwordController!.text.isEmpty) {
-      await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Please fill data '),
-              actions: [
-                ButtonWidget(
-                  onPress: () {
-                    Navigator.of(context).pop();
-                  },
-                  textButton: 'OK',
-                ),
-              ],
-            );
-          });
+      await showDialogApp(context, 'Please fill data');
     } else {
       await loginRequest(
           nameController!.text, passwordController!.text, context);
@@ -78,6 +66,48 @@ class _LoginState extends State<Login> {
       }
       return response;
     } catch (e) {
+      return response;
+    }
+  }
+
+  Future<http.Response> getProducts() async {
+    try {
+      var uri =
+          Uri.parse('https://flutter-task-hala-tech.herokuapp.com/products');
+      print('begin  request');
+      var response = await http.get(uri);
+      print('return from request');
+      var body = json.decode(response.body);
+      print('$body');
+      print("${response.statusCode}");
+      statusCode = response.statusCode;
+      if (statusCode == 200) {
+        print('Successful');
+        for (int i = 0; i < body.length; i++) {
+          print('${body["products"][2]["market"]["address"]}');
+          print('${body["products"][i]["name"]}');
+          //Add product into the box
+          Hive.box<Product>('products').add(Product()
+            ..name = body["products"][i]["name"]
+            ..id = int.parse(body["products"][i]["id"])
+            ..price = body["products"][i]["price"].toString()
+            ..imageUrl = body["products"][i]["imageUrl"]
+            ..rate = body["products"][i]["rate"].toString()
+            ..description = body["products"][i]["description"]
+            ..marketName = body["products"][i]["market"]["name"]
+            ..marketAddress = body["products"][i]["market"]["address"]);
+          print('${Hive.box<Product>('products').values}');
+          print('${Hive.box<Product>('products').keys}');
+        }
+      }
+      return response;
+    } catch (e) {
+      print('catch $e');
+      await showDialogApp(context,
+          'Something wrong while loading the products!, please check your connection and try again');
+      setState(() {
+        isLoading = false;
+      });
       return response;
     }
   }

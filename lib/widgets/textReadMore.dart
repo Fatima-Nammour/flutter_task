@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_task/component/colorsUsed.dart';
 
 class TextReadMore extends StatefulWidget {
   final String textOfText;
@@ -38,9 +37,8 @@ class _TextReadMoreState extends State<TextReadMore> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Row(
       children: [
-        //text widget to display long text
         buildText("${widget.textOfText}"),
         Visibility(
           visible: isVisible,
@@ -49,23 +47,16 @@ class _TextReadMoreState extends State<TextReadMore> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
             ),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(col2),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(15.0),
-                  ),
-                ),
-                elevation: MaterialStateProperty.all(5.0),
-                shadowColor: MaterialStateProperty.all<Color>(col1),
-              ),
+            child: InkWell(
               child: Text(
                 isReadMore ? 'Read Less' : 'Read More',
                 style: TextStyle(
-                    color: col1, fontWeight: FontWeight.bold, fontSize: 20.0),
+                    decoration: TextDecoration.overline,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0),
               ),
-              onPressed: () {
+              onTap: () {
                 setState(() {
                   // toggle the bool variable true or false
                   isReadMore = !isReadMore;
@@ -73,7 +64,7 @@ class _TextReadMoreState extends State<TextReadMore> {
               },
             ),
           ),
-        )
+        ),
       ],
     );
   }

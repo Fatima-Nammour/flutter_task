@@ -7,6 +7,7 @@ import 'package:flutter_task/models/product.dart';
 import 'package:flutter_task/models/user.dart';
 import 'package:flutter_task/widgets/button.dart';
 import 'package:flutter_task/widgets/imageProfile.dart';
+import 'package:flutter_task/widgets/showDialog-app.dart';
 import 'package:flutter_task/widgets/textField.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -28,7 +29,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var response = http.Response("Error", 100);
   var reBody;
   bool isLoading = false;
-  bool loadingProducts = false;
 
   @override
   void dispose() {
@@ -42,21 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         passwordController!.text.isEmpty ||
         cityController!.text.isEmpty ||
         numberController!.text.isEmpty) {
-      await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Please fill data '),
-              actions: [
-                ButtonWidget(
-                  onPress: () {
-                    Navigator.of(context).pop();
-                  },
-                  textButton: 'OK',
-                ),
-              ],
-            );
-          });
+      await showDialogApp(context, 'Please fill data');
     } else {
       await signUpRequest(
           nameController!.text,
@@ -101,6 +87,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return response;
     } catch (e) {
       print('catch $e');
+      await showDialogApp(context,
+          'Something wrong while loading the products!, please check your connection and try again');
+      setState(() {
+        isLoading = false;
+      });
       return response;
     }
   }
@@ -136,21 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         reBody = json.decode(response.body);
         //user already exist
         print("${reBody["message"]}");
-        await showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('User already exist '),
-                actions: [
-                  ButtonWidget(
-                    onPress: () {
-                      Navigator.of(context).pop();
-                    },
-                    textButton: 'OK',
-                  ),
-                ],
-              );
-            });
+        await showDialogApp(context, 'User already exist');
       } else if (statusCode == 200) {
         print('Sign up successfully');
         Hive.box<User>('user').add(
@@ -165,17 +142,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ..isSignup = true,
         );
         setState(() {
-          loadingProducts = true;
+          isLoading = true;
         });
         await getProducts();
         setState(() {
-          loadingProducts = false;
+          isLoading = false;
         });
         Navigator.pushReplacementNamed(context, 'Products');
       }
       return response;
     } catch (e) {
       print('catch $e');
+      await showDialogApp(context,
+          'Something wrong!, please check your connection and try again');
+      setState(() {
+        isLoading = false;
+      });
       return response;
     }
   }

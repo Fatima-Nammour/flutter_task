@@ -28,7 +28,7 @@ class EmptyShoppingCartPage extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(4.0)),
               child: Text(
-                'No products here! ',
+                'No products here!',
                 style: TextStyle(
                     color: col1, fontWeight: FontWeight.bold, fontSize: 20.0),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task/component/colorsUsed.dart';
+import 'package:flutter_task/widgets/textReadMore.dart';
 
 class ProductCard extends StatelessWidget {
   final String? imageUrl;
@@ -89,7 +90,7 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.all(8.0), child: Text('$description')),
+              padding: const EdgeInsets.all(8.0), child: TextReadMore('$description')),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
